@@ -1,0 +1,2 @@
+export const GTD_LIST = ['0x36b13220c4a6a949fe19360902843c6be8dc8255'];
+export const FCFS_LIST = ['0x8417A7e33d056dC56cF9685c7F958faD36d948c0'];
