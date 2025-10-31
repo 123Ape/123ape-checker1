@@ -1,4 +1,8 @@
-export const GTD_LIST = ['0x36b13220c4a6a949fe19360902843c6be8dc8255',
+
+// This script file contains your GTD & FCFS logic
+
+// Example GTD and FCFS Whitelist
+ const gtdWhitelist= ['0x36b13220c4a6a949fe19360902843c6be8dc8255',
   '0xfAd895c9B0588901C4A7F0b1570171153B014fBD',
   '0x77b29b385Ad4193CaA7a388b9FE87970eD405E75',
   '0x0192f4aA2ebfB26fAa985BaDA7f0d302a9976077',
@@ -183,7 +187,7 @@ export const GTD_LIST = ['0x36b13220c4a6a949fe19360902843c6be8dc8255',
   '0x612Fd40D7926D76Eacf30563876eac965fF5ce90',
   '0x72cdAe1d3979713567a9c1892d66569d486C70c9',
  ];
-export const FCFS_LIST = [
+const fcfsWhitelist = [
   '0x8417A7e33d056dC56cF9685c7F958faD36d948c0',
   '0x8651E49e19Ca9D7BB955c89afDC71A8B6A31C419',
   '0xf1f19F318904F3778c266645224a02C68CC13692',
@@ -339,4 +343,57 @@ export const FCFS_LIST = [
   '0xf6BA63B075f5a83Bb4a4Eeb6E6FD4234a9258eF0',
   '0xB9AbF6b6D3fB923Fb60a505a07291960baee16E3',
 ];
-  // Convert to Set for fast lookup const gtdSet = new Set(gtdWhitelist.map(a => a.toLowerCase())); const fcfsSet = new Set(fcfsWhitelist.map(a => a.toLowerCase()));  // Check eligibility document.getElementById('checkBtn').addEventListener('click', runCheck); document.getElementById('walletInput').addEventListener('keydown', (e) => {   if (e.key === 'Enter') runCheck(); });  function runCheck() {   const raw = document.getElementById('walletInput').value.trim();   const val = raw.toLowerCase();   const resultCard = document.getElementById('resultCard');   const main = document.getElementById('resultMain');   const sub = document.getElementById('resultSub');   const icon = document.getElementById('resultIcon');    if (!val || !val.startsWith('0x') || val.length !== 42) {     main.innerHTML = '⚠️ Invalid wallet address';     sub.innerText = 'Make sure address starts with 0x and has 42 characters.';     resultCard.className = 'result-card neutral';     icon.innerText = '!';     icon.style.color = 'orange';     return;   }    // Priority: GTD (guaranteed) takes precedence   if (gtdSet.has(val)) {     main.innerHTML = '✅ You won <b>GTD Mint</b> 🎉';     sub.innerText = `Congratulations — this wallet is on the GTD list.`;     resultCard.className = 'result-card success';     icon.innerHTML = '🎯';     icon.style.color = 'var(--success)';     return;   }    // Then FCFS   if (fcfsSet.has(val)) {     main.innerHTML = '🚀 You won <b>FCFS Mint</b> 🔥';     sub.innerText = `This wallet is on the FCFS list (first-come-first-serve).`;     resultCard.className = 'result-card success';     icon.innerHTML = '⚡';     icon.style.color = 'var(--blue)';     return;   }    // Not eligible   main.innerHTML = '❌ Sorry, not eligible for mint';   sub.innerText = `No match found in GTD or FCFS lists. Double-check the address.`;   resultCard.className = 'result-card danger';   icon.innerHTML = '✖';   icon.style.color = 'var(--danger)'; } 
+// Convert to Set for fast lookup
+const gtdSet = new Set(gtdWhitelist.map(a => a.toLowerCase()));
+const fcfsSet = new Set(fcfsWhitelist.map(a => a.toLowerCase()));
+
+// Check eligibility
+document.getElementById('checkBtn').addEventListener('click', runCheck);
+document.getElementById('walletInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') runCheck();
+});
+
+function runCheck() {
+  const raw = document.getElementById('walletInput').value.trim();
+  const val = raw.toLowerCase();
+  const resultCard = document.getElementById('resultCard');
+  const main = document.getElementById('resultMain');
+  const sub = document.getElementById('resultSub');
+  const icon = document.getElementById('resultIcon');
+
+  if (!val || !val.startsWith('0x') || val.length !== 42) {
+    main.innerHTML = '⚠️ Invalid wallet address';
+    sub.innerText = 'Make sure address starts with 0x and has 42 characters.';
+    resultCard.className = 'result-card neutral';
+    icon.innerText = '!';
+    icon.style.color = 'orange';
+    return;
+  }
+
+  // Priority: GTD (guaranteed) takes precedence
+  if (gtdSet.has(val)) {
+    main.innerHTML = '✅ You won <b>GTD Mint</b> 🎉';
+    sub.innerText = `Congratulations — this wallet is on the GTD list.`;
+    resultCard.className = 'result-card success';
+    icon.innerHTML = '🎯';
+    icon.style.color = 'var(--success)';
+    return;
+  }
+
+  // Then FCFS
+  if (fcfsSet.has(val)) {
+    main.innerHTML = '🚀 You won <b>FCFS Mint</b> 🔥';
+    sub.innerText = `This wallet is on the FCFS list (first-come-first-serve).`;
+    resultCard.className = 'result-card success';
+    icon.innerHTML = '⚡';
+    icon.style.color = 'var(--blue)';
+    return;
+  }
+
+  // Not eligible
+  main.innerHTML = '❌ Sorry, not eligible for mint';
+  sub.innerText = `No match found in GTD or FCFS lists. Double-check the address.`;
+  resultCard.className = 'result-card danger';
+  icon.innerHTML = '✖';
+  icon.style.color = 'var(--danger)';
+}
