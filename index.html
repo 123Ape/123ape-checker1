@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Whitelist Checker</title>
+    <script type="module" src="./whitelist.js"></script>
+  </head>
+  <body style="font-family: sans-serif; text-align: center; margin-top: 100px;">
+    <h1>Whitelist Checker</h1>
+    <input id="address" placeholder="Enter your wallet address" style="padding:10px;width:300px;" />
+    <button id="checkBtn" style="padding:10px 20px;margin-left:10px;">Check</button>
+    <p id="result" style="font-size:1.2em;margin-top:20px;"></p>
+
+    <script type="module">
+      import { GTD_LIST, FCFS_LIST } from './whitelist.js';
+      const checkBtn = document.getElementById('checkBtn');
+      const result = document.getElementById('result');
+      const addressInput = document.getElementById('address');
+      checkBtn.onclick = () => {
+        const addr = addressInput.value.trim().toLowerCase();
+        if (!addr) {
+          result.textContent = '⚠️ Please enter an address.';
+          result.style.color = 'gray';
+          return;
+        }
+        if (GTD_LIST.includes(addr)) {
+          result.textContent = '✅ You are in GTD Whitelist';
+          result.style.color = 'green';
+        } else if (FCFS_LIST.includes(addr)) {
+          result.textContent = '🕒 You are in FCFS Whitelist';
+          result.style.color = 'orange';
+        } else {
+          result.textContent = '❌ Not whitelisted';
+          result.style.color = 'red';
+        }
+      };
+    </script>
+  </body>
+</html>
