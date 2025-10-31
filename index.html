@@ -1,71 +1,91 @@
-// This script file contains your GTD & FCFS logic
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>123APE Mint Eligibility Checker 🦍</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #000;
+      color: #fff;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      color: #FFD700;
+      margin-bottom: 10px;
+    }
+    p {
+      color: #aaa;
+      font-size: 1rem;
+      margin-bottom: 30px;
+    }
+    input {
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      width: 300px;
+      font-size: 1rem;
+      text-align: center;
+      margin-top: 10px;
+    }
+    button {
+      background: linear-gradient(45deg, #FFD700, #FF8C00);
+      border: none;
+      color: #000;
+      border-radius: 10px;
+      padding: 10px 25px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: 0.3s;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+    .result-card {
+      margin-top: 30px;
+      padding: 20px;
+      border-radius: 15px;
+      font-size: 1.2rem;
+      display: inline-block;
+      min-width: 300px;
+    }
+    .result-card.success {
+      background: #003300;
+      border: 2px solid #00ff99;
+      color: #00ff99;
+    }
+    .result-card.danger {
+      background: #330000;
+      border: 2px solid #ff4444;
+      color: #ff7777;
+    }
+    .result-card.neutral {
+      background: #333300;
+      border: 2px solid #FFD700;
+      color: #FFD700;
+    }
+    .emoji {
+      font-size: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>123APE Mint Checker 🦍</h1>
+  <p>Enter your wallet address to see if you’re eligible for GTD or FCFS mint 🚀</p>
 
-// Example GTD and FCFS Whitelist
-const gtdWhitelist = [
-  "0x36b13220c4a6a949fe19360902843c6be8dc8255",
-  "0xfad895c9b0588901c4a7f0b1570171153b014fbd",
-  "0x77b29b385ad4193caa7a388b9fe87970ed405e75",
-  // Add more addresses here...
-];
+  <input type="text" id="walletInput" placeholder="0xYourWalletAddress" />
+  <br>
+  <button id="checkBtn">Check Eligibility</button>
 
-const fcfsWhitelist = [
-  "0x8417a7e33d056dc56cf9685c7f958fad36d948c0",
-  "0x8651e49e19ca9d7bb955c89afdc71a8b6a31c419",
-  "0xf1f19f318904f3778c266645224a02c68cc13692",
-  // Add more addresses here...
-];
+  <div id="resultCard" class="result-card">
+    <div id="resultMain" class="emoji">🦍</div>
+    <div id="resultSub">Waiting for input...</div>
+  </div>
 
-// Convert to Set for fast lookup
-const gtdSet = new Set(gtdWhitelist.map(a => a.toLowerCase()));
-const fcfsSet = new Set(fcfsWhitelist.map(a => a.toLowerCase()));
-
-// Check eligibility
-document.getElementById('checkBtn').addEventListener('click', runCheck);
-document.getElementById('walletInput').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') runCheck();
-});
-
-function runCheck() {
-  const raw = document.getElementById('walletInput').value.trim();
-  const val = raw.toLowerCase();
-  const resultCard = document.getElementById('resultCard');
-  const main = document.getElementById('resultMain');
-  const sub = document.getElementById('resultSub');
-  const icon = document.getElementById('resultIcon');
-
-  if (!val || !val.startsWith('0x') || val.length !== 42) {
-    main.innerHTML = '⚠️ Invalid wallet address';
-    sub.innerText = 'Make sure address starts with 0x and has 42 characters.';
-    resultCard.className = 'result-card neutral';
-    icon.innerText = '!';
-    icon.style.color = 'orange';
-    return;
-  }
-
-  // Priority: GTD (guaranteed) takes precedence
-  if (gtdSet.has(val)) {
-    main.innerHTML = '✅ You won <b>GTD Mint</b> 🎉';
-    sub.innerText = `Congratulations — this wallet is on the GTD list.`;
-    resultCard.className = 'result-card success';
-    icon.innerHTML = '🎯';
-    icon.style.color = 'var(--success)';
-    return;
-  }
-
-  // Then FCFS
-  if (fcfsSet.has(val)) {
-    main.innerHTML = '🚀 You won <b>FCFS Mint</b> 🔥';
-    sub.innerText = `This wallet is on the FCFS list (first-come-first-serve).`;
-    resultCard.className = 'result-card success';
-    icon.innerHTML = '⚡';
-    icon.style.color = 'var(--blue)';
-    return;
-  }
-
-  // Not eligible
-  main.innerHTML = '❌ Sorry, not eligible for mint';
-  sub.innerText = `No match found in GTD or FCFS lists. Double-check the address.`;
-  resultCard.className = 'result-card danger';
-  icon.innerHTML = '✖';
-  icon.style.color = 'var(--danger)';
-}
+  <!-- ✅ External JS link -->
+  <script src="./scripts.js"></script>
+</body>
+</html>
